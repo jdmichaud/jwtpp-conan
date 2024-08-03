@@ -1,0 +1,59 @@
+diff --git a/jwtpp/CMakeLists.txt b/jwtpp/CMakeLists.txt
+index e6a57e7..b854ff3 100644
+--- a/jwtpp/CMakeLists.txt
++++ b/jwtpp/CMakeLists.txt
+@@ -30,15 +30,11 @@ set(INSTALL_INC_DIR "${CMAKE_INSTALL_PREFIX}/include" CACHE PATH "Installation d
+ set(INSTALL_PKGCONFIG_DIR "${CMAKE_INSTALL_PREFIX}/share/pkgconfig" CACHE PATH "Installation directory for pkgconfig (.pc) files")
+ 
+ find_package(OpenSSL REQUIRED)
+-
+-if (NOT WIN32 AND NOT JsonCPP_FOUND)
+-	find_package(PkgConfig REQUIRED)
+-	pkg_check_modules(JsonCPP REQUIRED jsoncpp)
+-endif ()
++find_package(JsonCPP REQUIRED)
+ 
+ include_directories(SYSTEM ${OPENSSL_INCLUDE_DIR})
+-include_directories(SYSTEM ${JsonCPP_INCLUDE_DIRS})
+-link_directories(${JsonCPP_LIBRARY_DIRS})
++include_directories(SYSTEM ${jsoncpp_INCLUDE_DIRS})
++link_directories(${jsoncpp_LIBRARY_DIRS})
+ 
+ check_include_file_cxx(memory HAVE_MEMORY)
+ check_include_file_cxx(functional HAVE_FUNCTIONAL)
+@@ -89,7 +85,7 @@ target_include_directories(
+ 	${PROJECT_NAME}-static
+ 	PUBLIC
+ 		include/export
+-		${JsonCPP_INCLUDE_DIRS}
++		${jsoncpp_INCLUDE_DIRS}
+ 	PRIVATE
+ 		include/local
+ )
+@@ -97,7 +93,7 @@ target_include_directories(
+ target_link_libraries(
+ 	${PROJECT_NAME}-static
+ 	${OPENSSL_LIBRARIES}
+-	${JsonCPP_LIBRARIES}
++	${jsoncpp_LIBRARIES}
+ )
+ 
+ if (JWTPP_WITH_INSTALL)
+@@ -119,7 +115,7 @@ if (JWTPP_WITH_SHARED_LIBS)
+ 		${PROJECT_NAME}-shared
+ 		PUBLIC
+ 			include/export
+-			${JsonCPP_INCLUDE_DIRS}
++			${jsoncpp_INCLUDE_DIRS}
+ 		PRIVATE
+ 			include/local
+ 	)
+@@ -128,7 +124,7 @@ if (JWTPP_WITH_SHARED_LIBS)
+ 		${PROJECT_NAME}-shared
+ 		PUBLIC
+ 			${OPENSSL_LIBRARIES}
+-			${JsonCPP_LIBRARIES}
++			${jsoncpp_LIBRARIES}
+ 	)
+ 
+ 	if (WITH_INSTALL)

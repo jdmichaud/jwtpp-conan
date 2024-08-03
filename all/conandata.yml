@@ -1,0 +1,7 @@
+"2.0.5":
+  url:
+    - https://github.com/troian/jwtpp/archive/refs/tags/v2.0.5.zip
+  sha256: "e8eaf7e9fc228bc9fa95a9752d6ae078a91ca1fddb756e1909a5b5cd1ac85b79"
+  dependencies:
+    - "jsoncpp/1.9.5"
+    - "openssl/3.2.2"
