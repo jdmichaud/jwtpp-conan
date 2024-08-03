@@ -7,25 +7,17 @@ from conan.tools.files import download, unzip, patch
 
 class JwtppConan(ConanFile):
   name = "jwtpp"
-  version = "2.0.5"
   settings = "os", "compiler", "build_type", "arch"
   exports_sources = "*.patch"
 
   def requirements(self):
-    self.requires("jsoncpp/1.9.5")
-    self.requires("openssl/3.2.2")
-
-  def generate(self):
-    deps = CMakeDeps(self)
-    deps.generate()
-    tc = CMakeToolchain(self)
-    tc.generate()
+    for dependency in self.conan_data["sources"][self.version]['dependencies']:
+      self.requires(dependency)
 
   def source(self):
     # Download source from github
-    remote_zip_name = f"v{self.version}.zip"
     zip_name = f"{self.name}-v{self.version}.zip"
-    download(self, f"https://github.com/troian/jwtpp/archive/refs/tags/{remote_zip_name}", zip_name)
+    download(self, self.conan_data["sources"][self.version]['url'], zip_name)
     # Unzip and remove zip
     unzip(self, zip_name)
     shutil.move(f"jwtpp-{self.version}", "jwtpp")
